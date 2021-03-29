@@ -23,27 +23,20 @@ struct pseudo_header{
     u_int8_t reserved; 
 };
 
-/**
- * TCP checksum calculation.
- * Following RFC 1071.
- * In essence 1's complement of 16-bit groups.
- */ 
-unsigned short checksum(unsigned short *addr, int nbytes){
-    long sum = 0;
-    unsigned short checksum;
-    while(nbytes>1){
-        sum += (unsigned short) *addr++;
-        nbytes -= 2;
-    }
-    if(nbytes>0){
-        sum +=(unsigned char)*addr;
-    }
-            
-    while (sum>>16){
-        sum = (sum & 0xffff) + (sum >> 16);
-    }
+struct tcphdr* generate_tcp_header(
+    u_int16_t source,
+    u_int16_t destination,
+    u_int32_t seq_num,
+    u_int32_t ack_num,
+    u_int16_t window
+);
 
-    checksum = ~sum;
-}
+struct pseudo_header* generatePseudoHeader(
+    u_int16_t payload_length,
+    u_int32_t source_address,
+    u_int32_t dest_address
+);
+
+int compute_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes);
 
 #endif

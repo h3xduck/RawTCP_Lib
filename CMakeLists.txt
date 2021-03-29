@@ -8,7 +8,10 @@ project(TCPcannon)
 SET(CMAKE_C_FLAGS "-Wall")
 
 #Adding executables
-add_executable(cannon main.c)
+
+include_directories(include src)
+add_executable(cannon main.c src/segment.c include/segment.h)
+
 
 #We create the executables in the destination folder bin
 install(TARGETS cannon RUNTIME DESTINATION bin)
