@@ -10,12 +10,12 @@ struct iphdr* generate_ip_header(
         bzero(ipheader, sizeof(struct iphdr));
 
         ipheader->check = 0;
-        ipheader->daddr = inet_addr(dest_address);
+        inet_pton(AF_INET, dest_address, (void*)&(ipheader->daddr));
         ipheader->frag_off = 0;
         ipheader->id = htonl(54321);
         ipheader->ihl = 5; //Header length, no options
         ipheader->protocol = 6; //TCP
-        ipheader->saddr = inet_addr(source_address);
+        inet_pton(AF_INET, source_address, (void*)&(ipheader->saddr));
         ipheader->tos = 0;
         ipheader->tot_len = sizeof(struct iphdr)+sizeof(struct tcphdr)+payload_length;
         ipheader->ttl = 255; //Time to live

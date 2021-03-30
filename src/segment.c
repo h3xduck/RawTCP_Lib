@@ -49,11 +49,11 @@ struct pseudo_header* generatePseudoHeader(
     ){
         struct pseudo_header *psh = malloc(sizeof(struct pseudo_header));
         bzero(psh, sizeof(struct pseudo_header));
-        psh->dest_address = inet_addr(dest_address);
+        inet_pton(AF_INET, dest_address, (void*)&(psh->dest_address));
         psh->protocol_type = IPPROTO_TCP;
         psh->reserved = 0;
         psh->segment_length = htons(payload_length+sizeof(struct tcphdr));
-        psh->source_address = inet_addr(source_address);
+        inet_pton(AF_INET, source_address, (void*)&(psh->source_address));
 
         return psh;    
 }
@@ -68,17 +68,21 @@ unsigned short tcp_checksum(unsigned short *addr, int nbytes){
     unsigned short checksum;
     while(nbytes>1){
         sum += (unsigned short) *addr++;
+        printf("Sum: %ld \n",sum);
         nbytes -= 2;
     }
     if(nbytes>0){
         sum += htons((unsigned char)*addr);
+        printf("Sum: %ld \n",sum);
     }
             
     while (sum>>16){
         sum = (sum & 0xffff) + (sum >> 16);
+        printf("Sum: %ld \n",sum);
     }
 
     checksum = ~sum;
+    printf("Calculated checksum %hu\n", checksum);
     return checksum;
 }
 

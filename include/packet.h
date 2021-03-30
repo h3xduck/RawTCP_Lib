@@ -23,6 +23,7 @@ typedef struct packet_t{
     struct iphdr *ipheader;
     struct tcphdr *tcpheader;
     char *payload;
+    int payload_length;
     char* packet;
 }packet_t;
 

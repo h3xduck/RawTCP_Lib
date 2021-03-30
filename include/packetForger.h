@@ -14,12 +14,13 @@
 packet_t build_standard_packet(
     u_int16_t source_port,
     u_int16_t destination_port,
-    u_int32_t max_payload_length,
     const char* source_ip_address,
     const char* destination_ip_address,
     u_int32_t packet_length,
     char* payload
     );
+
+void reforge_TCP_checksum(packet_t packet);
 
 int packet_destroy(packet_t packet);
 
