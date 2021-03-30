@@ -46,7 +46,7 @@ packet_t build_standard_packet(
         bzero(packet, packet_length);
 
         //First we incorporate the IP header
-        struct iphdr *ipheader = generate_ip_header(destination_ip_address, source_ip_address, payload_length);
+        struct iphdr *ipheader = generate_ip_header(source_ip_address, destination_ip_address, payload_length);
         //The IP header is the first element in the packet
         memcpy(packet, ipheader, sizeof(struct iphdr));
         free(ipheader);
