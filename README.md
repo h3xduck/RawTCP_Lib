@@ -3,6 +3,7 @@
 RawTCP is a library to build custom TCP/IP packets from the ground and send them through raw sockets. It also generates TCP/IP checksums automatically.
 
 RawTCP uses the AF_INET address family so it supports both customization of the Network Layer (IP) and the Transport Layer (TCP) headers. Support for the Link Layer will come in future updates.
+
 ## Purpose
 * Send spoofed network packets (fake source IP/port).
 * Build specific packets for network attacks (e.g SYN flooding).
@@ -29,7 +30,7 @@ RawTCP is built as an static library to facilitate integration with your project
 ### Create a TCP/IP packet
 ```c
 //Packet indicates source=192.168.1.10:8000, dest=192.168.1.20:8080
-packet_t packet = build_standard_packet(8000, 8080, "192.168.1.10", "192.168.1.20", "MyMessage");
+packet_t packet = build_standard_packet(8000, 8080, "192.168.1.10", "192.168.1.20", 4096, "MyMessage");
 ```
 
 ### Set TCP flag active
@@ -45,7 +46,7 @@ RawTCP manages the recomputation of the checksums automatically.
 //Destination port and destination IP are those specified when creating the packet.
 rawsocket_send(packet);
 ```
-
+IMPORTANT: Raw sockets need root priviliges, so you will need them before you can run this specific function.
 ### Continously sending packets
 ```c
 //Sequence number & checksum automatically updated by OS
