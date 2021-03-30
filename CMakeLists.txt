@@ -5,12 +5,16 @@ cmake_minimum_required(VERSION 2.8)
 project(TCPcannon)
 
 # Add the needed flags for our compiler
-SET(CMAKE_C_FLAGS "-Wall")
+SET(CMAKE_C_FLAGS "-Wall -D_DEFAULT_SOURCE")
 
 #Adding executables
 
 include_directories(include src)
-add_executable(cannon main.c src/segment.c include/segment.h)
+add_executable(cannon main.c 
+    src/segment.c include/segment.h
+    src/packet.c include/packet.h
+    src/packetForger.c include/packetForger.h
+    src/socketManager.c include/socketManager.h)
 
 
 #We create the executables in the destination folder bin

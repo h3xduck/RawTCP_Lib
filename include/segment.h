@@ -1,6 +1,9 @@
-#ifndef HEADER_PACKET
-#define HEADER_PACKET
+#ifndef HEADER_SEGMENT
+#define HEADER_SEGMENT
 
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
 
 #include <netinet/tcp.h>
 /**
@@ -33,10 +36,10 @@ struct tcphdr* generate_tcp_header(
 
 struct pseudo_header* generatePseudoHeader(
     u_int16_t payload_length,
-    u_int32_t source_address,
-    u_int32_t dest_address
+    const char *source_address,
+    const char *dest_address
 );
 
-int compute_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes);
+void compute_tcp_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes);
 
 #endif

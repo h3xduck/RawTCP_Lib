@@ -1,4 +1,3 @@
-#define _DEFAULT_SOURCE
 #include "../include/segment.h"
 #include <stdio.h>
 #include <strings.h>
@@ -7,8 +6,6 @@
 #include <stdlib.h>
 #include <netinet/tcp.h>
 #include <netinet/in.h>
-
-/* modern glibc will complain about the above if it doesn't see this. */
 
 
 struct tcphdr* generate_tcp_header(
@@ -41,19 +38,22 @@ struct tcphdr* generate_tcp_header(
         return tcpheader;
     }
 
-
+/**
+ * Generates header with data needed for TCP checksum computation
+ * 
+ */
 struct pseudo_header* generatePseudoHeader(
     u_int16_t payload_length,
-    u_int32_t source_address,
-    u_int32_t dest_address
+    const char *source_address,
+    const char *dest_address
     ){
         struct pseudo_header *psh = malloc(sizeof(struct pseudo_header));
         bzero(psh, sizeof(struct pseudo_header));
-        psh->dest_address = dest_address;
+        psh->dest_address = inet_addr(dest_address);
         psh->protocol_type = IPPROTO_TCP;
         psh->reserved = 0;
         psh->segment_length = payload_length+sizeof(struct tcphdr);
-        psh->source_address = source_address;
+        psh->source_address = inet_addr(source_address);
 
         return psh;    
 }
@@ -63,7 +63,7 @@ struct pseudo_header* generatePseudoHeader(
  * Following RFC 1071.
  * In essence 1's complement of 16-bit groups.
  */ 
-unsigned short checksum(unsigned short *addr, int nbytes){
+unsigned short tcp_checksum(unsigned short *addr, int nbytes){
     long sum = 0;
     unsigned short checksum;
     while(nbytes>1){
@@ -71,7 +71,7 @@ unsigned short checksum(unsigned short *addr, int nbytes){
         nbytes -= 2;
     }
     if(nbytes>0){
-        sum +=(unsigned char)*addr;
+        sum += htons((unsigned char)*addr);
     }
             
     while (sum>>16){
@@ -83,8 +83,8 @@ unsigned short checksum(unsigned short *addr, int nbytes){
 }
 
 
-int compute_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes){
-    tcpheader->check = checksum(addr, nbytes);
-    return 0;
+void compute_tcp_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes){
+    u_int16_t res =tcp_checksum(addr, nbytes);
+    tcpheader->check = res;
 }
 
