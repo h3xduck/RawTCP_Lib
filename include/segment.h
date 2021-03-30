@@ -21,9 +21,10 @@
 struct pseudo_header{
     u_int32_t source_address;
     u_int32_t dest_address;
+    u_int8_t reserved; 
     u_int8_t protocol_type;
     u_int16_t segment_length;
-    u_int8_t reserved; 
+    
 };
 
 struct tcphdr* generate_tcp_header(

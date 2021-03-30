@@ -13,7 +13,7 @@
 #include "../include/socketManager.h"
 
 int main(){
-    packet_t packet = build_standard_packet(8000, 8000, 200, "192.168.1.102", "192.168.1.1", 4096, "AB");
+    packet_t packet = build_standard_packet(8000, 7000, 3, "192.168.1.46", "192.168.1.1", 4096, "AB");
     printf("Packet payload: %s\n", packet.payload);
     printf("Packet TCP header checksum %hu\n", packet.tcpheader->check);
     printf("Packet IP header checksum %hu\n", packet.ipheader->check);

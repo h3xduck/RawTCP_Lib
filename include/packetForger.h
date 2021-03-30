@@ -18,7 +18,7 @@ packet_t build_standard_packet(
     const char* source_ip_address,
     const char* destination_ip_address,
     u_int32_t packet_length,
-    const char* payload
+    char* payload
     );
 
 int packet_destroy(packet_t packet);

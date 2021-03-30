@@ -52,7 +52,7 @@ struct pseudo_header* generatePseudoHeader(
         psh->dest_address = inet_addr(dest_address);
         psh->protocol_type = IPPROTO_TCP;
         psh->reserved = 0;
-        psh->segment_length = payload_length+sizeof(struct tcphdr);
+        psh->segment_length = htons(payload_length+sizeof(struct tcphdr));
         psh->source_address = inet_addr(source_address);
 
         return psh;    
