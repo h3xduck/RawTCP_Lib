@@ -1,16 +1,18 @@
-#ifndef HEADER_FORGER
-#define HEADER_FORGER
+#ifndef HEADER_RAWTCP_LIB
+#define HEADER_RAWTCP_LIB
 
-#ifndef _DEFAULT_SOURCE
-#define _DEFAULT_SOURCE
-#endif
-
-#include "packet.h"
-#include "segment.h"
-#include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
+//Packet_t structure
+typedef struct packet_t{
+    struct iphdr *ipheader;
+    struct tcphdr *tcpheader;
+    char *payload;
+    int payload_length;
+    char* packet;
+}packet_t;
+
+//PacketForger headers
 packet_t build_standard_packet(
     u_int16_t source_port,
     u_int16_t destination_port,
@@ -23,5 +25,9 @@ packet_t build_standard_packet(
 int packet_destroy(packet_t packet);
 
 int set_TCP_flags(packet_t packet, int hex_flags);
+
+//SocketManager headers
+int rawsocket_send(packet_t packet);
+
 
 #endif

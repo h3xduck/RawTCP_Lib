@@ -10,23 +10,24 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -D_DEFAULT_SOURCE")
 #Adding executables
 include_directories(include src)
 
-add_executable(RawTCP_Exec main.c 
-    src/segment.c include/segment.h
-    src/packet.c include/packet.h
-    src/packetForger.c include/packetForger.h
-    src/socketManager.c include/socketManager.h)
+#This is to let cmake know that the library used later is not under /usr/bin, but rather in our custom dir
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+add_executable(RawTCP_Exec main.c)
 
 #Add files with implementation and INTERFACE library type (header only).
-add_library(RawTCP_Lib SHARED 
+add_library(RawTCP_Lib STATIC
     src/segment.c src/packet.c src/packetForger.c src/socketManager.c )
-
-# Public API of the library (the header file)
-set_target_properties(RawTCP_Lib PROPERTIES PUBLIC_HEADER 
-    "include/packetForger.h;include/socketManager.h")
 
 include(GNUInstallDirs)
 
+#Include library
+include_directories(lib) 
+
+#We link the client target with the library built under project keys
+target_link_libraries(RawTCP_Exec PUBLIC RawTCP_Lib)
+
 #We create the executables in the destination folder bin
 install(TARGETS RawTCP_Exec RUNTIME DESTINATION bin)
-install(TARGETS RawTCP_Lib LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION lib)
+install(TARGETS RawTCP_Lib ARCHIVE DESTINATION lib)

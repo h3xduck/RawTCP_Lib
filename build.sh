@@ -7,7 +7,7 @@ declare silence=$1
 
 #####################################################################
 #                                                                   #
-#   Script to build the TCPcannon.                                  #
+#   Script to build the RawTCP_Lib.                                 #
 #                                                                   #
 #   Running instructions:                                           #
 #       chmod +x build.sh                                           #
