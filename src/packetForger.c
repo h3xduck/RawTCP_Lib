@@ -26,7 +26,7 @@ packet_t build_standard_packet(
             perror("Could not allocate memory for pseudo header");
             exit(1);
         }
-        unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr) + max_payload_length)*sizeof(unsigned short);
+        unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr)) + max_payload_length;
         unsigned short *tcp_checksum = malloc(tcp_checksum_size);
         if(!tcp_checksum){
             perror("Could not allocate memory for tcp checksum");
@@ -36,9 +36,9 @@ packet_t build_standard_packet(
         printf("PS %i, TCPH %i, PP %i\n", sizeof(struct pseudo_header), sizeof(struct tcphdr), payload_length);fflush(stdout);
         printf("tcpcksum; %hu\n", tcp_checksum);
         memcpy(tcp_checksum, psh, sizeof(struct pseudo_header));
-        printf("Start: %hu , Memcopying at %hu\n", tcp_checksum, (unsigned short)(tcp_checksum+ sizeof(struct pseudo_header)));fflush(stdout);
-        memcpy(tcp_checksum+ (unsigned short) sizeof(struct pseudo_header), tcpheader, sizeof(struct tcphdr));
-        memcpy(tcp_checksum+ (unsigned short) (sizeof(struct pseudo_header)+sizeof(struct tcphdr)), payload, payload_length);
+        printf("Start: %hu , Memcopying at %hu\n", tcp_checksum, (unsigned short)(tcp_checksum+ (unsigned short)(sizeof(struct pseudo_header)/sizeof(unsigned short))));fflush(stdout);
+        memcpy(tcp_checksum+ (unsigned short) (sizeof(struct pseudo_header)/sizeof(unsigned short)), tcpheader, sizeof(struct tcphdr));
+        memcpy(tcp_checksum+ (unsigned short) ((sizeof(struct pseudo_header)+sizeof(struct tcphdr))/sizeof(unsigned short)), payload, payload_length);
         compute_tcp_checksum(tcpheader, tcp_checksum, tcp_checksum_size);
 
         //Now we build the whole packet and incorporate the previous tcpheader + payload
@@ -51,6 +51,7 @@ packet_t build_standard_packet(
         memcpy(packet, ipheader, sizeof(struct iphdr));
         free(ipheader);
         ipheader = (struct iphdr*) packet;
+        printf("Sizeof ipheader: %lu\n", sizeof(struct iphdr));
         //We incorporate the payload, goes after the tcpheader but we need it already for the checksum computation (the tcpheader does not take part)
         memcpy(packet+sizeof(struct iphdr)+sizeof(struct tcphdr), payload, payload_length);
         //free(payload);
