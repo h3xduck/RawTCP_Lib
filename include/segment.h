@@ -41,6 +41,17 @@ struct pseudo_header* generatePseudoHeader(
     const char *dest_address
 );
 
-void compute_tcp_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes);
+void compute_segment_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes);
+
+#define FIN 0x01
+#define SYN 0x02
+#define RST 0x04
+#define PSH 0x08
+#define ACK 0x10
+#define URG 0x20
+#define ECE 0x40
+#define CWR 0x80
+
+void set_segment_flags(struct tcphdr *tcphdr, int flags);
 
 #endif

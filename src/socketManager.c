@@ -25,8 +25,11 @@ int rawsocket_send(packet_t packet){
         perror("ERROR sending the packet in the socket");
         return -1;
     }
-    printf("Packet of length %d sent to %u, %i sent\n", packet.ipheader->tot_len, packet.ipheader->daddr, sent);
-    
-    return 0;
 
+    printf("Packet of length %d sent to %u\n", packet.ipheader->tot_len, packet.ipheader->daddr);
+
+    close(sock);
+    return 0;
 }
+
+

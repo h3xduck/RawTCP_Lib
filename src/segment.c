@@ -7,7 +7,6 @@
 #include <netinet/tcp.h>
 #include <netinet/in.h>
 
-
 struct tcphdr* generate_tcp_header(
     u_int16_t source, //source port
     u_int16_t destination, //destination port
@@ -68,27 +67,50 @@ unsigned short tcp_checksum(unsigned short *addr, int nbytes){
     unsigned short checksum;
     while(nbytes>1){
         sum += (unsigned short) *addr++;
-        printf("Sum: %ld \n",sum);
         nbytes -= 2;
     }
     if(nbytes>0){
         sum += htons((unsigned char)*addr);
-        printf("Sum: %ld \n",sum);
     }
             
     while (sum>>16){
         sum = (sum & 0xffff) + (sum >> 16);
-        printf("Sum: %ld \n",sum);
     }
 
     checksum = ~sum;
-    printf("Calculated checksum %hu\n", checksum);
     return checksum;
 }
 
 
-void compute_tcp_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes){
+void compute_segment_checksum(struct tcphdr *tcpheader, unsigned short *addr, int nbytes){
     u_int16_t res =tcp_checksum(addr, nbytes);
     tcpheader->check = res;
+}
+
+void set_segment_flags(struct tcphdr *tcphdr, int flags){
+    int iterator = 1;
+    int *result = malloc(sizeof(int)*8);
+    int counter = 0;
+    while (iterator <= flags) {
+        if (iterator & flags){
+            result[counter] = iterator;
+            
+        } 
+        counter++;
+        iterator <<= 1;
+    }
+    
+    
+    for(int ii=0; ii<8; ii++){
+        if((result[ii] - CWR) == 0) tcphdr->res1 = 1;
+        if((result[ii] - ECE) == 0) tcphdr->res2 = 1;
+        if((result[ii] - URG) == 0) tcphdr->urg = 1;
+        if((result[ii] - ACK) == 0) tcphdr->ack = 1;
+        if((result[ii] - PSH) == 0) tcphdr->psh = 1;
+        if((result[ii] - RST) == 0) tcphdr->rst = 1;
+        if((result[ii] - SYN) == 0) tcphdr->syn = 1;
+        if((result[ii] - FIN) == 0) tcphdr->fin = 1;
+    }
+    
 }
 

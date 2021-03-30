@@ -14,15 +14,10 @@ void forge_TCP_checksum(int payload_length, const char* source_ip_address, const
             perror("Could not allocate memory for tcp checksum");
             exit(1);
         }
-        //printf("tcp checksum data length: %i\n", tcp_checksum_size);fflush(stdout);
-        //printf("PS %i, TCPH %i, PP %i\n", sizeof(struct pseudo_header), sizeof(struct tcphdr), payload_length);fflush(stdout);
-        //printf("tcpcksum; %hu\n", tcp_checksum);
         memcpy(tcp_checksum, psh, sizeof(struct pseudo_header));
-        //printf("Start: %hu , Memcopying at %hu\n", tcp_checksum, (unsigned short)(tcp_checksum+ (unsigned short)(sizeof(struct pseudo_header)/sizeof(unsigned short))));fflush(stdout);
         memcpy(tcp_checksum+ (unsigned short) (sizeof(struct pseudo_header)/sizeof(unsigned short)), tcpheader, sizeof(struct tcphdr));
-        printf("Payload: %s, length: %i\n", payload, payload_length);
         memcpy(tcp_checksum+ (unsigned short) ((sizeof(struct pseudo_header)+sizeof(struct tcphdr))/sizeof(unsigned short)), payload, payload_length);
-        compute_tcp_checksum(tcpheader, tcp_checksum, tcp_checksum_size);
+        compute_segment_checksum(tcpheader, tcp_checksum, tcp_checksum_size);
         free(psh);
         free(tcp_checksum);
 }
@@ -53,7 +48,6 @@ packet_t build_standard_packet(
             exit(1);
         }
         int payload_length = strlen((const char*)payload)+1;
-        printf("Payload length: %i\n", payload_length);fflush(stdout);
         //We copy the payload we were given, just in case they free memory on the other side
         forge_TCP_checksum(payload_length, source_ip_address, destination_ip_address, tcpheader, payload);
         
@@ -67,7 +61,6 @@ packet_t build_standard_packet(
         memcpy(packet, ipheader, sizeof(struct iphdr));
         free(ipheader);
         ipheader = (struct iphdr*) packet;
-        printf("Sizeof ipheader: %lu\n", sizeof(struct iphdr));
         //We incorporate the payload, goes after the tcpheader but we need it already for the checksum computation (the tcpheader does not take part)
         memcpy(packet+sizeof(struct iphdr)+sizeof(struct tcphdr), payload, payload_length);
         //free(payload);
@@ -77,8 +70,7 @@ packet_t build_standard_packet(
         memcpy(packet+sizeof(struct iphdr), tcpheader, sizeof(struct tcphdr));
         free(tcpheader);
         tcpheader = (struct tcphdr*)(packet+sizeof(struct iphdr));
-        //printf("PacketP: %i, PayloadP:%i \n", packet, payload);
-
+        
         //We build the returning data structure
         packet_t *result = malloc(sizeof(packet_t));
         result->ipheader = ipheader;
@@ -92,7 +84,15 @@ packet_t build_standard_packet(
 }
 
 
-
+int set_TCP_flags(packet_t packet, int hex_flags){
+    if(hex_flags>0x200){
+        perror("Invalid flags set");
+        return -1;
+    }
+    set_segment_flags(packet.tcpheader, hex_flags);
+    reforge_TCP_checksum(packet);
+    return 0;
+}
 
 
 int packet_destroy(packet_t packet){
