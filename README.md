@@ -1,3 +1,19 @@
+
+```
+██████╗  █████╗ ██╗    ██╗████████╗ ██████╗██████╗ 
+██╔══██╗██╔══██╗██║    ██║╚══██╔══╝██╔════╝██╔══██╗
+██████╔╝███████║██║ █╗ ██║   ██║   ██║     ██████╔╝
+██╔══██╗██╔══██║██║███╗██║   ██║   ██║     ██╔═══╝ 
+██║  ██║██║  ██║╚███╔███╔╝   ██║   ╚██████╗██║     
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝    ╚═╝    ╚═════╝╚═╝     
+                                                   
+```
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/marsan27/RawTCP_Lib)
+![Maintainability](https://img.shields.io/static/v1?label=maintainability&message=B&color=green)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/marsan27/RawTCP_Lib)
+![GitHub last commit](https://img.shields.io/github/last-commit/marsan27/RawTCP_Lib)
+
+
 # RawTCP_Lib
 
 RawTCP is a library to build custom TCP/IP packets from the ground and send them through raw sockets. It also generates TCP/IP checksums automatically.
@@ -12,7 +28,7 @@ RawTCP uses the AF_INET address family so it supports both customization of the 
 
 ## Installation
 RawTCP is built as an static library to facilitate integration with your project. 
-1.  [Download](https://github.com/marsan27/RawTCP_Lib/releases/latest) RawTCP and put it in your project directory.
+1.  [Download](https://github.com/marsan27/RawTCP_Lib/releases/tag/v0.1.0) RawTCP and put it in your project directory.
 2.  Integrate it in your project
     *  METHOD 1: With gcc compiler
     ```sh
