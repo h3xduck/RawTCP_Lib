@@ -75,7 +75,7 @@ while(1){
 ## Issues?
 Whether it is a bug, question or suggestion, please [open a ticket](https://github.com/marsan27/RawTCP_Lib/issues/new) and I will have a look at it as fast as I possibly can.
 ## LICENSE
-This software is licensed under the MIT license. See [LICENSE.md](https://github.com/marsan27/RawTCP_Lib/blob/master/LICENSE.md)
+This software is licensed under the MIT license. See [LICENSE](https://github.com/marsan27/RawTCP_Lib/blob/master/LICENSE)
 
 
 
