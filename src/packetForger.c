@@ -72,14 +72,15 @@ packet_t build_standard_packet(
         tcpheader = (struct tcphdr*)(packet+sizeof(struct iphdr));
         
         //We build the returning data structure
-        packet_t *result = malloc(sizeof(packet_t));
-        result->ipheader = ipheader;
-        result->tcpheader = tcpheader;
-        result->payload = payload;
-        result->packet = packet;
-        result->payload_length = payload_length;
-
-        return *result;
+        packet_t result;
+        result.ipheader = ipheader;
+        result.tcpheader = tcpheader;
+        result.payload = payload;
+        result.packet = packet;
+        result.payload_length = payload_length;
+        
+        
+        return result;
 
 }
 
