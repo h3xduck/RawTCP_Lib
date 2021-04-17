@@ -16,15 +16,26 @@
 
 # RawTCP_Lib
 
-RawTCP is a library to build custom TCP/IP packets from the ground and send them through raw sockets. It also generates TCP/IP checksums automatically.
+RawTCP is a library to build custom TCP/IP packets from the ground and send/receive them using only raw sockets and the C language.
 
-RawTCP uses the AF_INET address family so it supports both customization of the Network Layer (IP) and the Transport Layer (TCP) headers. Support for the Link Layer will come in future updates.
+## Features
+* Create custom TCP/IP packets with control over all their fields (including network flags).
+* Automatically build packets' checksums, or request a recalculation manually.
+* Send built packets over raw sockets.
+* **NEW:** Sniff incoming packets to your device, and operate with them later.
 
-## Purpose
+## Use cases
+You can have a look at my project [TCPcannon](https://github.com/marsan27/TCPcannon) built on top of this library for an example!
+
 * Send spoofed network packets (fake source IP/port).
 * Build specific packets for network attacks (e.g SYN flooding).
-* OS fingerprinting.
+* Monitor your device network traffic.
 * Fast integration in your network application.
+  
+  
+Note: RawTCP uses the AF_INET address family so it supports both customization of the Network Layer (IP) and the Transport Layer (TCP) headers. Support for the Link Layer will come in future updates.
+
+
 
 ## Installation
 RawTCP is built as an static library to facilitate integration with your project. 
@@ -70,6 +81,12 @@ packet_t packet = build_standard_packet(...)
 while(1){
     rawsocket_send(packet);
 }
+```
+
+### Sniff incoming TCP packets
+```c
+//The packet can be used as if it was generated with build_standard_packet()
+packet_t packet = rawsocket_sniff();
 ```
 
 ## Issues?

@@ -24,7 +24,7 @@ int main(){
 
     struct sockaddr_in source;
     memset(&source, 0, sizeof(source));
-	source.sin_addr.s_addr = packet.ipheader->saddr;
+	source.sin_addr.s_addr = packet.ipheader->daddr;
 
     printf("Packet: %s\n", inet_ntoa(source.sin_addr));
 
