@@ -8,4 +8,6 @@
 
 int rawsocket_send(packet_t packet);
 
+int rawsocket_sniff();
+
 #endif

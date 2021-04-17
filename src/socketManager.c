@@ -33,3 +33,25 @@ int rawsocket_send(packet_t packet){
 }
 
 
+int rawsocket_sniff(packet_t packet){
+    //Create raw socket.
+    int sock = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);
+    if(sock == -1){
+        perror("ERROR opening raw socket. Do you have root priviliges?");
+        return -1;
+    }
+
+    //Result of recv
+    int buffer_size = 20000;
+    char* buffer = calloc(buffer_size, sizeof(char));
+    int received = recvfrom(sock, buffer, buffer_size, 0x0, NULL, NULL);
+    if(received<0){
+        perror("ERROR receiving packet in the socket");
+        return -1;
+    }
+    
+    close(sock);
+    return 0;
+}
+
+
