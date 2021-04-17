@@ -18,7 +18,7 @@ add_executable(RawTCP_Exec main.c)
 
 #Add files with implementation and INTERFACE library type (header only).
 add_library(RawTCP_Lib STATIC
-    src/segment.c src/packet.c src/packetForger.c src/socketManager.c )
+    src/segment.c src/packet.c src/packetForger.c src/socketManager.c src/packetInterpreter.c)
 
 include(GNUInstallDirs)
 
