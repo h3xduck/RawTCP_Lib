@@ -39,7 +39,7 @@ Note: RawTCP uses the AF_INET address family so it supports both customization o
 
 ## Installation
 RawTCP is built as an static library to facilitate integration with your project. 
-1.  [Download](https://github.com/marsan27/RawTCP_Lib/releases/tag/v0.1.0) RawTCP and put it in your project directory.
+1.  [Download](https://github.com/marsan27/RawTCP_Lib/releases/latest) RawTCP and put it in your project directory.
 2.  Integrate it in your project
     *  METHOD 1: With gcc compiler
     ```sh

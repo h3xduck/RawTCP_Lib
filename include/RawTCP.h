@@ -29,5 +29,7 @@ int set_TCP_flags(packet_t packet, int hex_flags);
 //SocketManager headers
 int rawsocket_send(packet_t packet);
 
+packet_t rawsocket_sniff();
+
 
 #endif
