@@ -5,9 +5,10 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "packetInterpreter.h"
 
 int rawsocket_send(packet_t packet);
 
-int rawsocket_sniff();
+packet_t rawsocket_sniff();
 
 #endif

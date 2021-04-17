@@ -95,6 +95,15 @@ int set_TCP_flags(packet_t packet, int hex_flags){
     return 0;
 }
 
+packet_t build_null_packet(packet_t packet){
+    packet.ipheader = NULL;
+    packet.packet = NULL;
+    packet.payload = NULL;
+    packet.payload_length = 0;
+    packet.tcpheader = NULL;
+    return packet;
+}
+
 
 int packet_destroy(packet_t packet){
     free(packet.packet);
