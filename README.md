@@ -43,7 +43,7 @@ RawTCP is built as an static library to facilitate integration with your project
 2.  Integrate it in your project
     *  METHOD 1: With gcc compiler
     ```sh
-    gcc <your-files> libRawTCP_lib.a
+    gcc <your-files> libRawTCP_Lib.a
     ```
 
     * METHOD 2 With cmake
