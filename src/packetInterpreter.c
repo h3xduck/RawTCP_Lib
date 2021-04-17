@@ -25,7 +25,8 @@ packet_t parse_packet(char* buffer, int size){
 
     if(proto!=6){
         build_null_packet(packet);
-        fprintf(stderr, "Parsed packet of non-supported protocol %i\n", proto);
+        fprintf(stderr, "Parsed packet of non-supported protocol. This should not have happened %i\n", proto);
+        return packet;
     }
 
     //Constructing packet struct

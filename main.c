@@ -20,7 +20,13 @@ int main(){
     
     packet_destroy(packet);*/
 
-    rawsocket_sniff();
+    packet_t packet = rawsocket_sniff();
+
+    struct sockaddr_in source;
+    memset(&source, 0, sizeof(source));
+	source.sin_addr.s_addr = packet.ipheader->saddr;
+
+    printf("Packet: %s\n", inet_ntoa(source.sin_addr));
 
     return 0;
 }
