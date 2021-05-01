@@ -14,7 +14,7 @@
 /**
  * IP Packet definition
  * 
- * @author marsan27
+ * @author h3xduck
  * @version 1.0
  * @see
  */ 

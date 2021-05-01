@@ -8,10 +8,10 @@
 ╚═╝  ╚═╝╚═╝  ╚═╝ ╚══╝╚══╝    ╚═╝    ╚═════╝╚═╝     
                                                    
 ```
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/marsan27/RawTCP_Lib)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/h3xduck/RawTCP_Lib)
 ![Maintainability](https://img.shields.io/static/v1?label=maintainability&message=B&color=green)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/marsan27/RawTCP_Lib)
-![GitHub last commit](https://img.shields.io/github/last-commit/marsan27/RawTCP_Lib)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/h3xduck/RawTCP_Lib)
+![GitHub last commit](https://img.shields.io/github/last-commit/h3xduck/RawTCP_Lib)
 
 
 # RawTCP_Lib
@@ -25,7 +25,7 @@ RawTCP is a library to build custom TCP/IP packets from the ground and send/rece
 * **NEW:** Sniff incoming packets to your device, and operate with them later.
 
 ## Use cases
-You can have a look at my project [TCPcannon](https://github.com/marsan27/TCPcannon) built on top of this library for an example!
+You can have a look at my project [TCPcannon](https://github.com/h3xduck/TCPcannon) built on top of this library for an example!
 
 * Send spoofed network packets (fake source IP/port).
 * Build specific packets for network attacks (e.g SYN flooding).
@@ -39,7 +39,7 @@ Note: RawTCP uses the AF_INET address family so it supports both customization o
 
 ## Installation
 RawTCP is built as an static library to facilitate integration with your project. 
-1.  [Download](https://github.com/marsan27/RawTCP_Lib/releases/latest) RawTCP and put it in your project directory.
+1.  [Download](https://github.com/h3xduck/RawTCP_Lib/releases/latest) RawTCP and put it in your project directory.
 2.  Integrate it in your project
     *  METHOD 1: With gcc compiler
     ```sh
@@ -90,9 +90,9 @@ packet_t packet = rawsocket_sniff();
 ```
 
 ## Issues?
-Whether it is a bug, question or suggestion, please [open a ticket](https://github.com/marsan27/RawTCP_Lib/issues/new) and I will have a look at it as fast as I possibly can.
+Whether it is a bug, question or suggestion, please [open a ticket](https://github.com/h3xduck/RawTCP_Lib/issues/new) and I will have a look at it as fast as I possibly can.
 ## LICENSE
-This software is licensed under the MIT license. See [LICENSE](https://github.com/marsan27/RawTCP_Lib/blob/master/LICENSE)
+This software is licensed under the MIT license. See [LICENSE](https://github.com/h3xduck/RawTCP_Lib/blob/master/LICENSE)
 
 
 
