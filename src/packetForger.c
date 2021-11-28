@@ -47,7 +47,7 @@ packet_t build_standard_packet(
             perror("Could not allocate memory for tcp header");
             exit(1);
         }
-        int payload_length = strlen((const char*)payload)+1;
+        int payload_length = strlen((const char*)payload);
         //We copy the payload we were given, just in case they free memory on the other side
         forge_TCP_checksum(payload_length, source_ip_address, destination_ip_address, tcpheader, payload);
         
