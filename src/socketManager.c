@@ -63,4 +63,41 @@ packet_t rawsocket_sniff(){
     return packet;
 }
 
+packet_t rawsocket_sniff_pattern(char* payload_pattern){
+    int pattern_received = 0;
+    //Create raw socket.
+    int sock = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);
+    packet_t packet;
+
+    while(!pattern_received){
+        if(sock == -1){
+            perror("ERROR opening raw socket. Do you have root priviliges?");
+            packet = build_null_packet(packet);
+            continue;
+        }
+
+        //Result of recv
+        int buffer_size = 20000;
+        char* buffer = calloc(buffer_size, sizeof(char));
+        int received = recvfrom(sock, buffer, buffer_size, 0x0, NULL, NULL);
+
+        if(received<0){
+            perror("ERROR receiving packet in the socket");
+            packet = build_null_packet(packet);
+            continue;
+        }
+
+        packet = parse_packet(buffer, buffer_size);
+
+        if(strcmp(packet.payload, payload_pattern) == 0){
+            printf("Found the packet with the pattern %s\n", payload_pattern);
+        }else{
+            printf("Found payload string was %s\n", packet.payload);
+        }
+
+    }
+    close(sock);
+    return packet;
+}
+
 
