@@ -73,7 +73,7 @@ packet_t rawsocket_sniff_pattern(char* payload_pattern){
         if(sock == -1){
             perror("ERROR opening raw socket. Do you have root priviliges?");
             packet = build_null_packet(packet);
-            continue;
+            return packet;
         }
 
         //Result of recv
@@ -84,15 +84,17 @@ packet_t rawsocket_sniff_pattern(char* payload_pattern){
         if(received<0){
             perror("ERROR receiving packet in the socket");
             packet = build_null_packet(packet);
-            continue;
+            return packet;
         }
 
         packet = parse_packet(buffer, buffer_size);
 
         if(strcmp(packet.payload, payload_pattern) == 0){
-            printf("Found the packet with the pattern %s\n", payload_pattern);
+            //printf("Found the packet with the pattern %s\n", payload_pattern);
+            pattern_received = 1;
         }else{
-            printf("Found payload string was %s\n", packet.payload);
+            //Not the one we are looking for
+            //printf("Found payload string was %s\n", packet.payload);
         }
 
     }
