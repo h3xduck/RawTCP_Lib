@@ -89,7 +89,7 @@ packet_t rawsocket_sniff_pattern(char* payload_pattern){
 
         packet = parse_packet(buffer, buffer_size);
 
-        if(strcmp(packet.payload, payload_pattern) == 0){
+        if(strncmp(packet.payload, payload_pattern, strlen(payload_pattern)) == 0){
             //printf("Found the packet with the pattern %s\n", payload_pattern);
             pattern_received = 1;
         }else{
