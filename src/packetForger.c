@@ -2,24 +2,24 @@
 
 void forge_TCP_checksum(int payload_length, const char* source_ip_address, const char* destination_ip_address, struct tcphdr* tcpheader, char* payload){
     //We now compute the TCP checksum
-        struct pseudo_header* psh = generatePseudoHeader(payload_length, source_ip_address, destination_ip_address);
-        if(!psh){
-            perror("Could not allocate memory for pseudo header");
-            exit(1);
-        }
-        unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr)) + payload_length;
-        unsigned short *tcp_checksum = malloc(tcp_checksum_size);
-        bzero(tcp_checksum, tcp_checksum_size);
-        if(!tcp_checksum){
-            perror("Could not allocate memory for tcp checksum");
-            exit(1);
-        }
-        memcpy(tcp_checksum, psh, sizeof(struct pseudo_header));
-        memcpy(tcp_checksum+ (unsigned short) (sizeof(struct pseudo_header)/sizeof(unsigned short)), tcpheader, sizeof(struct tcphdr));
-        memcpy(tcp_checksum+ (unsigned short) ((sizeof(struct pseudo_header)+sizeof(struct tcphdr))/sizeof(unsigned short)), payload, payload_length);
-        compute_segment_checksum(tcpheader, tcp_checksum, tcp_checksum_size);
-        free(psh);
-        free(tcp_checksum);
+    struct pseudo_header* psh = generatePseudoHeader(payload_length, source_ip_address, destination_ip_address);
+    if(!psh){
+        perror("Could not allocate memory for pseudo header");
+        exit(1);
+    }
+    unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr)) + payload_length;
+    unsigned short *tcp_checksum = malloc(tcp_checksum_size);
+    bzero(tcp_checksum, tcp_checksum_size);
+    if(!tcp_checksum){
+        perror("Could not allocate memory for tcp checksum");
+        exit(1);
+    }
+    memcpy(tcp_checksum, psh, sizeof(struct pseudo_header));
+    memcpy(tcp_checksum+ (unsigned short) (sizeof(struct pseudo_header)/sizeof(unsigned short)), tcpheader, sizeof(struct tcphdr));
+    memcpy(tcp_checksum+ (unsigned short) ((sizeof(struct pseudo_header)+sizeof(struct tcphdr))/sizeof(unsigned short)), payload, payload_length);
+    compute_segment_checksum(tcpheader, tcp_checksum, tcp_checksum_size);
+    free(psh);
+    free(tcp_checksum);
 }
 
 void reforge_TCP_checksum(packet_t packet){
@@ -49,7 +49,7 @@ packet_t build_standard_packet(
         }
         int payload_length = strlen((const char*)payload);
         //We copy the payload we were given, just in case they free memory on the other side
-        forge_TCP_checksum(payload_length, source_ip_address, destination_ip_address, tcpheader, payload);
+        forge_TCP_checksum(payload_length+1, source_ip_address, destination_ip_address, tcpheader, payload);
         
         //Now we build the whole packet and incorporate the previous tcpheader + payload
         char *packet = malloc(sizeof(char)*packet_length);

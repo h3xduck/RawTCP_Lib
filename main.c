@@ -13,14 +13,14 @@
 #include "../include/socketManager.h"
 
 int main(){
-    /*packet_t packet = build_standard_packet(8000, 9000, "127.0.0.1", "127.0.0.1", 4096, "XDP_PoC_0");
+    packet_t packet = build_standard_packet(8000, 9000, "127.0.0.1", "127.0.0.1", 4096, "XDP_PoC_0");
    
     rawsocket_send(packet);
-    set_TCP_flags(packet, 0x02);
+    //set_TCP_flags(packet, 0x02);
     
-    packet_destroy(packet);*/
+    packet_destroy(packet);
 
-    packet_t packet = rawsocket_sniff_pattern("HEY");
+    //packet_t packet = rawsocket_sniff_pattern("HEY");
 
     /*struct sockaddr_in source;
     memset(&source, 0, sizeof(source));
