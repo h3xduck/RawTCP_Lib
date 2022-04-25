@@ -11,6 +11,7 @@
 #include <arpa/inet.h>
 #include "../include/packetForger.h"
 #include "../include/socketManager.h"
+#include "include/streamBuilder.h"
 
 int main(){
     packet_t packet = build_standard_packet(8000, 9000, "127.0.0.1", "127.0.0.1", 4096, "XDP_PoC_0");
@@ -18,7 +19,7 @@ int main(){
     rawsocket_send(packet);
     //set_TCP_flags(packet, 0x02);
     
-    packet_destroy(packet);
+    //packet_destroy(packet);
 
     //packet_t packet = rawsocket_sniff_pattern("HEY");
 
@@ -27,6 +28,15 @@ int main(){
 	source.sin_addr.s_addr = packet.ipheader->daddr;
 
     printf("Packet: %s\n", inet_ntoa(source.sin_addr));*/
+
+    stream_t stream = build_standard_packet_stream_empty_payload(2, 8000, 9000, "127.0.0.1", "127.0.0.1");
+    printf("STREAM LENGTH: %i\n", stream.stream_length);
+    for(int ii=0; ii<stream.stream_length; ii++){
+        rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
+    }
+
+    stream_destroy(stream);
+
 
     return 0;
 }
