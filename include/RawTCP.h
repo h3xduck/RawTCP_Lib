@@ -17,6 +17,11 @@ typedef struct stream_t{
     int stream_length;
 }stream_t;
 
+typedef enum{
+    TYPE_TCP_SEQ_RAW,
+    TYPE_TCP_ACK_RAW
+}stream_inject_type_t;
+
 //PacketForger headers
 packet_t build_standard_packet(
     u_int16_t source_port,
@@ -35,11 +40,15 @@ stream_t build_standard_packet_stream_empty_payload(
     const char* destination_ip_address
     );
 
+stream_t stream_inject(stream_t stream, stream_inject_type_t type, char* payload, int payload_length);
+
 int packet_destroy(packet_t packet);
 
 void stream_destroy(stream_t stream);
 
 int set_TCP_flags(packet_t packet, int hex_flags);
+
+int set_TCP_seq_num(packet_t packet, u_int32_t bytes);
 
 //SocketManager headers
 int rawsocket_send(packet_t packet);

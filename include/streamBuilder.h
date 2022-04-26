@@ -13,6 +13,12 @@
 #include "packetStream.h"
 #include "packetForger.h"
 
+//Types of packet streams with hidden payloads supported
+typedef enum{
+    TYPE_TCP_SEQ_RAW,
+    TYPE_TCP_ACK_RAW
+}stream_inject_type_t;
+
 /**
  * @brief Builds packet stream with a common set of parameters
  * 
@@ -26,5 +32,7 @@ stream_t build_standard_packet_stream_empty_payload(
     );
 
 void stream_destroy(stream_t stream);
+
+stream_t stream_inject(stream_t stream, stream_inject_type_t type, char* payload, int payload_length);
 
 #endif

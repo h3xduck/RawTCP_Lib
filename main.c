@@ -14,10 +14,12 @@
 #include "include/streamBuilder.h"
 
 int main(){
-    packet_t packet = build_standard_packet(8000, 9000, "127.0.0.1", "127.0.0.1", 4096, "XDP_PoC_0");
-   
+    /*packet_t packet = build_standard_packet(8000, 9000, "127.0.0.1", "127.0.0.1", 4096, "XDP_PoC_0");
+    
     rawsocket_send(packet);
-    //set_TCP_flags(packet, 0x02);
+
+    set_TCP_flags(packet, 0x02);
+    rawsocket_send(packet);*/
     
     //packet_destroy(packet);
 
@@ -31,11 +33,18 @@ int main(){
 
     stream_t stream = build_standard_packet_stream_empty_payload(2, 8000, 9000, "127.0.0.1", "127.0.0.1");
     printf("STREAM LENGTH: %i\n", stream.stream_length);
-    for(int ii=0; ii<stream.stream_length; ii++){
+    /*for(int ii=0; ii<stream.stream_length; ii++){
         rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
     }
 
-    stream_destroy(stream);
+    stream_destroy(stream);*/
+    for(int ii=0; ii<stream.stream_length; ii++){
+        rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
+    }
+    stream_inject(stream, TYPE_TCP_SEQ_RAW, "AAABBBCC", 8);
+    for(int ii=0; ii<stream.stream_length; ii++){
+        rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
+    }
 
 
     return 0;
