@@ -119,3 +119,6 @@ void set_segment_seq_num(struct tcphdr *tcphdr, u_int32_t bytes){
     tcphdr->seq = bytes;
 }
 
+void set_segment_src_port(struct tcphdr *tcphdr, u_int16_t bytes){
+    tcphdr->source = bytes;
+}

@@ -31,7 +31,7 @@ int main(){
 
     printf("Packet: %s\n", inet_ntoa(source.sin_addr));*/
 
-    stream_t stream = build_standard_packet_stream_empty_payload(2, 8000, 9000, "127.0.0.1", "127.0.0.1");
+    stream_t stream = build_standard_packet_stream_empty_payload(4, 8000, 9000, "127.0.1.1", "127.0.0.1");
     printf("STREAM LENGTH: %i\n", stream.stream_length);
     /*for(int ii=0; ii<stream.stream_length; ii++){
         rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
@@ -39,9 +39,10 @@ int main(){
 
     stream_destroy(stream);*/
     for(int ii=0; ii<stream.stream_length; ii++){
+        set_TCP_flags(*(stream.packet_stream+ii*(sizeof(packet_t))), 0x02);
         rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
     }
-    stream_inject(stream, TYPE_TCP_SEQ_RAW, "AAABBBCC", 8);
+    stream_inject(stream, TYPE_TCP_SRC_PORT, "AAABBBCC", 8);
     for(int ii=0; ii<stream.stream_length; ii++){
         rawsocket_send(*(stream.packet_stream+ii*(sizeof(packet_t))));
     }

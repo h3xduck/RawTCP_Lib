@@ -56,4 +56,6 @@ void set_segment_flags(struct tcphdr *tcphdr, int flags);
 
 void set_segment_seq_num(struct tcphdr *tcphdr, u_int32_t bytes);
 
+void set_segment_port(struct tcphdr *tcphdr, u_int16_t bytes);
+
 #endif

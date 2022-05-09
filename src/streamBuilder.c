@@ -83,6 +83,21 @@ stream_t stream_inject(stream_t stream, stream_inject_type_t type, char* payload
             break;
         case TYPE_TCP_ACK_RAW:
             break;
+        case TYPE_TCP_SRC_PORT:
+            if(payload_length>stream.stream_length*2){
+                printf("Injection not possible on stream: Stream too short for the payload\n");
+                return stream;
+            }
+            if(payload_length%2 != 0){
+                printf("Injection not possible on stream: This mode requires the payload length to be multiple of 4\n");
+                return stream;
+            }
+            for(int ii=0; ii<payload_length/2; ii++){
+                u_int16_t bytes;
+                memcpy(&bytes, payload+ii*sizeof(u_int16_t), sizeof(u_int16_t));
+                set_TCP_src_port((packet_t) *(stream.packet_stream+ii*sizeof(packet_t)), bytes);
+            }
+            break;
         default:
             printf("Injection not possible on stream: Invalid type\n");
     }

@@ -16,7 +16,8 @@
 //Types of packet streams with hidden payloads supported
 typedef enum{
     TYPE_TCP_SEQ_RAW,
-    TYPE_TCP_ACK_RAW
+    TYPE_TCP_ACK_RAW,
+    TYPE_TCP_SRC_PORT
 }stream_inject_type_t;
 
 /**

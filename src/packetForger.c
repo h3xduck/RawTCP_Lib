@@ -100,6 +100,12 @@ int set_TCP_seq_num(packet_t packet, u_int32_t bytes){
     return 0;
 }
 
+int set_TCP_src_port(packet_t packet, u_int16_t bytes){
+    set_segment_src_port(packet.tcpheader, bytes);
+    reforge_TCP_checksum(packet);
+    return 0;
+}
+
 packet_t build_null_packet(packet_t packet){
     packet.ipheader = NULL;
     packet.packet = NULL;

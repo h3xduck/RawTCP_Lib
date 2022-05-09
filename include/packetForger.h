@@ -26,6 +26,8 @@ int set_TCP_flags(packet_t packet, int hex_flags);
 
 int set_TCP_seq_num(packet_t packet, u_int32_t bytes);
 
+int set_TCP_src_port(packet_t packet, u_int16_t bytes);
+
 packet_t build_null_packet(packet_t packet);
 
 #endif
