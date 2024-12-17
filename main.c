@@ -14,7 +14,7 @@
 #include "include/streamBuilder.h"
 
 int main(){
-    packet_t packet = build_standard_packet_auto(8000, 9000, "142.250.179.206", "142.250.179.206", "XDP_PoC_0");
+    packet_t packet = build_standard_packet_auto(8000, 9000, "127.0.0.1", "127.0.0.1", "XDP_PoC_0");
     
     rawsocket_send(packet);
 
@@ -23,7 +23,7 @@ int main(){
     
     //packet_destroy(packet);
 
-    //packet_t packet = rawsocket_sniff_pattern("HEY");
+    rawsocket_sniff_pattern_fast("XDP_PoC_0");
 
     /*struct sockaddr_in source;
     memset(&source, 0, sizeof(source));

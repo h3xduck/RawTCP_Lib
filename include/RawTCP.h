@@ -68,4 +68,6 @@ packet_t rawsocket_sniff();
 
 packet_t rawsocket_sniff_pattern(char* payload_pattern);
 
+packet_t rawsocket_sniff_pattern_fast(char* payload_pattern);
+
 #endif
