@@ -20,6 +20,14 @@ packet_t build_standard_packet(
     char* payload
     );
 
+packet_t build_standard_packet_auto(
+    u_int16_t source_port,
+    u_int16_t destination_port,
+    const char* source_ip_address,
+    const char* destination_ip_address,
+    char* payload
+    );
+
 int packet_destroy(packet_t packet);
 
 int set_TCP_flags(packet_t packet, int hex_flags);
