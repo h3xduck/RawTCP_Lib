@@ -7,7 +7,7 @@ void forge_TCP_checksum(int payload_length, const char* source_ip_address, const
         perror("Could not allocate memory for pseudo header");
         exit(1);
     }
-    unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr)) + payload_length+1;
+    unsigned short tcp_checksum_size = (sizeof(struct pseudo_header) + sizeof(struct tcphdr)) + payload_length;
     unsigned short *tcp_checksum = malloc(tcp_checksum_size);
     bzero(tcp_checksum, tcp_checksum_size);
     if(!tcp_checksum){

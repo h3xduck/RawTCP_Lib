@@ -70,7 +70,7 @@ unsigned short tcp_checksum(unsigned short *addr, int nbytes){
         nbytes -= 2;
     }
     if(nbytes>0){
-        sum += htons((unsigned char)*addr);
+        sum += (unsigned char *) *addr;
     }
             
     while (sum>>16){
